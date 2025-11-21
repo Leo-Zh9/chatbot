@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #0f0f0f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #0f0f0f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.prose :where(p, ul, ol, pre, blockquote, h1, h2, h3, h4, h5, h6) {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.prose :where(ul, ol) {
+  padding-left: 1.25rem;
+}
+
+.prose :where(li) {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.dark :root,
+.dark body {
+  background-color: #000000;
+  color: #f7f7f8;
+}

@@ -1,0 +1,49 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+*.secret
+credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+uv.lock
+
+# Node modules (if any at root)
+node_modules/
+
+# IDE
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# OS
+Thumbs.db
+.DS_Store
+
