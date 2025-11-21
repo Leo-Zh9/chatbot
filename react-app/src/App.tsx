@@ -16,18 +16,6 @@ type SsePayload = {
   content?: string
 }
 
-const resolveApiRoute = (): string => {
-  const envRoute = import.meta.env.VITE_API_ROUTE?.trim()
-  if (envRoute) {
-    return envRoute
-  }
-  if (typeof window !== 'undefined') {
-    return `${window.location.origin.replace(/\/$/, '')}/api/chat`
-  }
-  return '/api/chat'
-}
-
-const API_ROUTE = resolveApiRoute()
 const THEME_STORAGE_KEY = 'chat-theme'
 
 const initialMessages: Message[] = [
@@ -50,6 +38,14 @@ const prefersDarkTheme = (): 'light' | 'dark' => {
 }
 
 function App() {
+  const apiRoute =
+    import.meta.env.VITE_BACKEND_URL?.trim() ||
+    (typeof window !== 'undefined'
+      ? `${window.location.origin.replace(/\/$/, '')}/api/chat`
+      : '/api/chat')
+
+  console.log('Loaded VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL, 'Resolved API route:', apiRoute)
+
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [inputValue, setInputValue] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
@@ -132,9 +128,9 @@ function App() {
     streamAbortController.current = abortController
 
     let reader: ReadableStreamDefaultReader<Uint8Array> | null = null
-
+    
     try {
-      const response = await fetch(API_ROUTE, {
+      const response = await fetch(apiRoute, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
