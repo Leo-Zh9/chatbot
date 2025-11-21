@@ -46,7 +46,21 @@ const markdownComponents = {
   },
 }
 
+const normalizeMath = (value: string): string => {
+  const withUnixLineEndings = value.replace(/\r\n/g, '\n')
+
+  const convertedDelimiters = withUnixLineEndings
+    .replace(/\\\[/g, '$$\n')
+    .replace(/\\\]/g, '\n$$')
+    .replace(/\\\(/g, '$')
+    .replace(/\\\)/g, '$')
+
+  return convertedDelimiters.replace(/^\s*\$\s*$/gm, '$$')
+}
+
 export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser }) => {
+  const normalizedMessage = normalizeMath(message)
+
   return (
     <div className={`chat-message ${isUser ? 'chat-message--user' : 'chat-message--assistant'}`}>
       <div className="chat-avatar" aria-hidden>
@@ -59,7 +73,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser }) => 
           components={markdownComponents}
           className="chat-content prose prose-sm dark:prose-invert"
         >
-          {message}
+          {normalizedMessage}
         </ReactMarkdown>
       </div>
     </div>

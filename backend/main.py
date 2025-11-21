@@ -154,6 +154,8 @@ async def chat_endpoint(request: ChatRequest) -> StreamingResponse:
                 else:
                     partial = content or ""
 
+                partial = partial.replace("\\\\", "\\")
+
                 if not partial:
                     continue
                 yield format_sse({"event": "chunk", "content": partial})
