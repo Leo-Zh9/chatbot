@@ -38,13 +38,8 @@ const prefersDarkTheme = (): 'light' | 'dark' => {
 }
 
 function App() {
-  const apiRoute =
-    import.meta.env.VITE_BACKEND_URL?.trim() ||
-    (typeof window !== 'undefined'
-      ? `${window.location.origin.replace(/\/$/, '')}/api/chat`
-      : '/api/chat')
-
-  console.log('Loaded VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL, 'Resolved API route:', apiRoute)
+  const apiRoute = '/api/chat-proxy'
+  console.log('Resolved API route:', apiRoute)
 
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [inputValue, setInputValue] = useState('')
