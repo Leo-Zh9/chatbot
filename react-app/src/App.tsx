@@ -38,7 +38,7 @@ const prefersDarkTheme = (): 'light' | 'dark' => {
 }
 
 function App() {
-  const apiRoute = '/api/chat-proxy'
+  const apiRoute = '/api/chat'
   console.log('Resolved API route:', apiRoute)
 
   const [messages, setMessages] = useState<Message[]>(initialMessages)
