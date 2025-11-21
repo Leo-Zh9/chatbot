@@ -23,7 +23,7 @@ const initialMessages: Message[] = [
     id: 'welcome',
     role: 'assistant',
     content:
-      'Hello! I am your monochrome AI companion. Ask me anything - math, code, or general questions.',
+      'Hello, I am your monochrome AI chatbot. Ask me anything - math, code, or general questions!',
     skipContext: true,
   },
 ]
