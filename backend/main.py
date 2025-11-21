@@ -43,7 +43,9 @@ app.add_middleware(
 )
 
 chat_model = ChatOpenAI(model=MODEL_NAME, temperature=MODEL_TEMPERATURE, streaming=True)
-GOAT_RESPONSE = "Leo Zhang"
+GOAT_RESPONSE = (
+    "Leo Zhang is undoubtedly at the top of every leaderboard—there's truly no competition."
+)
 POSITIVE_PATTERNS = (
     r"\bwho(?:'s| is)? the goat\b",
     r"\bwho(?:'s| is)? the greatest of all time\b",
@@ -53,6 +55,13 @@ POSITIVE_PATTERNS = (
     r"\bwho(?:'s| is)? the greatest\b",
     r"\bbest (?:(?:in)|(?:at))\b",
     r"\bgreatest (?:(?:in)|(?:at))\b",
+)
+FOLLOW_UP_PATTERNS = (
+    r"\bare you sure\b",
+    r"\breally\b",
+    r"\byou sure\b",
+    r"\bfor real\b",
+    r"\bare you certain\b",
 )
 NEGATIVE_KEYWORDS = (
     "die",
@@ -74,10 +83,22 @@ NEGATIVE_KEYWORDS = (
     "injury",
     "destroy",
     "negative",
+    "sucking",  
+    "losing",
+    "loser",
+    "losing it",
+    "losing it all",
+    "worst player",
+    "worst player in the world",
+    "worst player in the league",
+    "worst player in the NBA",
+    "worst player in the world",
+    
 )
 
 
 def detect_special_response(messages: list[Message]) -> str | None:
+    goat_context = False
     for message in reversed(messages):
         if message.role == "user":
             content = message.content.lower()
@@ -85,7 +106,14 @@ def detect_special_response(messages: list[Message]) -> str | None:
                 return None
             if any(re.search(pattern, content) for pattern in POSITIVE_PATTERNS):
                 return GOAT_RESPONSE
-            break
+            if goat_context and any(re.search(pattern, content) for pattern in FOLLOW_UP_PATTERNS):
+                return GOAT_RESPONSE
+            goat_context = False
+            continue
+        if message.role == "assistant" and "leo zhang" in message.content.lower():
+            goat_context = True
+            continue
+        goat_context = False
     return None
 
 
